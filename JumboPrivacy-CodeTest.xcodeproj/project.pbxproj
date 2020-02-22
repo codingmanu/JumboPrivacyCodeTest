@@ -13,6 +13,11 @@
 		8053699424003D7E005237B3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8053699224003D7E005237B3 /* Main.storyboard */; };
 		8053699624003D7F005237B3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8053699524003D7F005237B3 /* Assets.xcassets */; };
 		8053699924003D7F005237B3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8053699724003D7F005237B3 /* LaunchScreen.storyboard */; };
+		805369A124003DB7005237B3 /* JumboScriptProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805369A024003DB7005237B3 /* JumboScriptProvider.swift */; };
+		805369A324005D5C005237B3 /* SampleOperationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805369A224005D5C005237B3 /* SampleOperationHandler.swift */; };
+		805369A724005DA8005237B3 /* SampleResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805369A624005DA8005237B3 /* SampleResponse.swift */; };
+		805369AC2400A072005237B3 /* JumboOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805369AB2400A072005237B3 /* JumboOperation.swift */; };
+		805369AE2400A408005237B3 /* OperationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 805369AD2400A408005237B3 /* OperationCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +29,11 @@
 		8053699524003D7F005237B3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8053699824003D7F005237B3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8053699A24003D7F005237B3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		805369A024003DB7005237B3 /* JumboScriptProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JumboScriptProvider.swift; sourceTree = "<group>"; };
+		805369A224005D5C005237B3 /* SampleOperationHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleOperationHandler.swift; sourceTree = "<group>"; };
+		805369A624005DA8005237B3 /* SampleResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleResponse.swift; sourceTree = "<group>"; };
+		805369AB2400A072005237B3 /* JumboOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JumboOperation.swift; sourceTree = "<group>"; };
+		805369AD2400A408005237B3 /* OperationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,15 +66,44 @@
 		8053698B24003D7E005237B3 /* JumboPrivacy-CodeTest */ = {
 			isa = PBXGroup;
 			children = (
+				8053699A24003D7F005237B3 /* Info.plist */,
 				8053698C24003D7E005237B3 /* AppDelegate.swift */,
 				8053698E24003D7E005237B3 /* SceneDelegate.swift */,
 				8053699024003D7E005237B3 /* ViewController.swift */,
-				8053699224003D7E005237B3 /* Main.storyboard */,
 				8053699524003D7F005237B3 /* Assets.xcassets */,
 				8053699724003D7F005237B3 /* LaunchScreen.storyboard */,
-				8053699A24003D7F005237B3 /* Info.plist */,
+				8053699224003D7E005237B3 /* Main.storyboard */,
+				805369A524005D8A005237B3 /* Handlers */,
+				805369A424005D7D005237B3 /* Models */,
+				805369A824007B30005237B3 /* Views */,
 			);
 			path = "JumboPrivacy-CodeTest";
+			sourceTree = "<group>";
+		};
+		805369A424005D7D005237B3 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				805369A624005DA8005237B3 /* SampleResponse.swift */,
+				805369AB2400A072005237B3 /* JumboOperation.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		805369A524005D8A005237B3 /* Handlers */ = {
+			isa = PBXGroup;
+			children = (
+				805369A024003DB7005237B3 /* JumboScriptProvider.swift */,
+				805369A224005D5C005237B3 /* SampleOperationHandler.swift */,
+			);
+			path = Handlers;
+			sourceTree = "<group>";
+		};
+		805369A824007B30005237B3 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				805369AD2400A408005237B3 /* OperationCell.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -139,8 +178,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				8053699124003D7E005237B3 /* ViewController.swift in Sources */,
+				805369A324005D5C005237B3 /* SampleOperationHandler.swift in Sources */,
+				805369AE2400A408005237B3 /* OperationCell.swift in Sources */,
+				805369A724005DA8005237B3 /* SampleResponse.swift in Sources */,
 				8053698D24003D7E005237B3 /* AppDelegate.swift in Sources */,
+				805369AC2400A072005237B3 /* JumboOperation.swift in Sources */,
 				8053698F24003D7E005237B3 /* SceneDelegate.swift in Sources */,
+				805369A124003DB7005237B3 /* JumboScriptProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
