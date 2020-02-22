@@ -19,6 +19,7 @@ enum JumboScriptProviderError: Error {
     case networkError
     case invalidResponse
     case decodingError
+    case cachingError
 }
 
 /*
@@ -39,10 +40,10 @@ class JumboScriptProvider {
             completion(.success(sampleWebURL))
         }
         
-        // If the file doesn't exist, we download it. Please ignore the force unwrapping ere.
+        // If the file doesn't exist, we download it. Please ignore the force unwrapping on the URL.
         let url = URL(string: script.rawValue)!
         
-        // Could switch to downloadTask
+        // Could be a downloadTask.
         URLSession.shared.dataTask(with: url) { (data, _, error) in
             if error != nil {
                 completion(.failure(.networkError))
@@ -55,17 +56,37 @@ class JumboScriptProvider {
                 completion(.failure(.decodingError))
                 return
             }
-            try? stringData.write(to: sampleScriptURL, atomically: true, encoding: .utf8)
-            createHTMLPage()
-            completion(.success(sampleWebURL))
+            
+            // Save script to disk and make HTML page matching it. If both succed, call a successful completion.
+            if saveScriptToDisk(script: stringData) && createHTMLPage() {
+                completion(.success(sampleWebURL))
+            } else {
+                completion(.failure(.cachingError))
+            }
             
         }.resume()
     }
     
+    private static func saveScriptToDisk(script: String) -> Bool {
+        do {
+            try script.write(to: sampleScriptURL, atomically: true, encoding: .utf8)
+            return true
+        } catch let error {
+            print(error.localizedDescription)
+            return false
+        }
+    }
+    
     // Creates an HTML page containing the script with matching name.
-    private static func createHTMLPage() {
+    private static func createHTMLPage() -> Bool {
         let htmlString = "<html><body><script src=\"\(sampleScriptURL.lastPathComponent)\"></script></body></html>"
-        try? htmlString.write(to: sampleWebURL, atomically: true, encoding: .utf8)
+        do {
+            try htmlString.write(to: sampleWebURL, atomically: true, encoding: .utf8)
+            return true
+        } catch let error {
+            print(error.localizedDescription)
+            return false
+        }
     }
     
     // Helper function to get the documents folder to save the script to.
