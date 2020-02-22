@@ -9,26 +9,20 @@
 import UIKit
 
 class OperationCell: UITableViewCell {
-        
-    private lazy var idLabel: UILabel = {
-        let label = UILabel(frame: .zero)
-        label.font = UIFont.preferredFont(forTextStyle: .body)
-        return label
-    }()
-    
+
+    // Views
+    private lazy var idLabel = UILabel(frame: .zero)
     private lazy var progressView = UIProgressView(frame: .zero)
+    private lazy var messageLabel = UILabel(frame: .zero)
     
-    private lazy var messageLabel: UILabel = {
-        let label = UILabel(frame: .zero)
-        label.font = UIFont.preferredFont(forTextStyle: .body)
-        return label
-    }()
-    
+    // Public method to load the operation data into the Cell's UI.
     func configure(_ operation: JumboOperation) {
+        
+        selectionStyle = .none
         
         idLabel.text = operation.id
 
-        operation.setDelegate(self)
+        operation.delegate = self
         
         addSubview(idLabel)
         addSubview(progressView)
@@ -53,10 +47,15 @@ class OperationCell: UITableViewCell {
         
         self.setStatus(status: operation.getStatus())
     }
+
+    // MARK: - Private Functions to update the Cell's UI.
     
-    func setStatus(status: OperationStatus) {
+    private func setStatus(status: OperationStatus) {
         
         switch status {
+        case .loading:
+            self.messageLabel.text = "Loading script"
+            self.resetProgress()
         case .ready:
             self.messageLabel.text = "Tap to start"
             self.resetProgress()
@@ -68,6 +67,8 @@ class OperationCell: UITableViewCell {
             self.operationFailed()
         case .finished:
             self.operationFinished()
+        default:
+            return
         }
     }
     
@@ -85,7 +86,7 @@ class OperationCell: UITableViewCell {
     
     private func operationFailed() {
         DispatchQueue.main.async { [weak self] in
-            self?.messageLabel.text = "Operation failed. Tap to restart."
+            self?.messageLabel.text = "Operation failed."
         }
     }
     
@@ -98,11 +99,14 @@ class OperationCell: UITableViewCell {
     
     private func operationFinished() {
         DispatchQueue.main.async { [weak self] in
-            self?.messageLabel.text = "Operation finished"
-            self?.progressView.setProgress(1.0, animated: true)
+            guard let self = self else { return }
+            self.messageLabel.text = "Operation finished"
+            self.progressView.setProgress(1.0, animated: false)
         }
     }
 }
+
+// MARK: - Protocol extension to get notified of status updates on the operations.
 
 extension OperationCell: OperationStatusDelegate {
 

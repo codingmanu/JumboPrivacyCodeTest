@@ -12,8 +12,9 @@ import WebKit
 class ViewController: UIViewController {
     
     @IBOutlet weak var operationTableView: UITableView!
-    
-    private var operations = [JumboOperation]()
+       
+    // The handler owns the list of operations.
+    private var handler = SampleOperationHandler.shared
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,7 +25,8 @@ class ViewController: UIViewController {
     }
     
     @IBAction func addOperationButtonTapped(_ sender: Any) {
-        operations.append(JumboOperation(id: "Operation \(operations.count + 1)"))
+        let operation = JumboOperation(id: "Operation \(handler.getOperations().count + 1)")
+        handler.addOperation(operation: operation)
         
         DispatchQueue.main.async { [weak self] in
             self?.operationTableView.reloadData()
@@ -32,10 +34,12 @@ class ViewController: UIViewController {
     }
 }
 
+// MARK: - Protocol Extensions
+
 extension ViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        operations[indexPath.row].start()
+        handler.startOperation(operation: handler.getOperations()[indexPath.row])
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -46,14 +50,14 @@ extension ViewController: UITableViewDelegate {
 extension ViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return operations.count
+        return handler.getOperations().count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = OperationCell()
         
-        let operation = operations[indexPath.row]
+        let operation = handler.getOperations()[indexPath.row]
         cell.configure(operation)
         
         return cell

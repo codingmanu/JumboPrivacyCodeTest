@@ -8,38 +8,34 @@
 
 import Foundation
 
-enum OperationStatus {
-    case ready
-    case started
-    case inProgress(progress: Float)
-    case failed
-    case finished
+
+
+// Informs status changes to update the views
+protocol OperationStatusDelegate: class {
+    func operationStatusChanged(status: OperationStatus)
 }
 
+/*
+ Class containing the bulk of the operation's logic. On this sample it only contains the ID
+ but could contain any data needed to complete that operation. Delegate is implemented here
+ to be able to update cells individually.
+ */
 class JumboOperation: NSObject {
     
     let id: String
-    private lazy var handler = SampleOperationHandler()
+    private var handler = SampleOperationHandler.shared
+    weak var delegate: OperationStatusDelegate?
     
     init(id: String) {
         self.id = id
         super.init()
     }
     
-    func setDelegate(_ delegate: OperationStatusDelegate) {
-        self.handler.delegate = delegate
-    }
-    
-    func start() {
-        switch getStatus() {
-        case .ready, .failed:
-            handler.runOperation(self)
-        default:
-            return
-        }
-    }
-    
     func getStatus() -> OperationStatus {
-        return self.handler.status
+        handler.getOperationStatus(operation: self)
+    }
+    
+    func statusChanged(_ status: OperationStatus) {
+        delegate?.operationStatusChanged(status: status)
     }
 }

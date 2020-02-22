@@ -8,6 +8,8 @@
 
 import Foundation
 
+// Response model object to match the requirements of the messages the script provided returns.
+
 struct SampleResponse: Codable {
     
     enum Message: String, Codable {
